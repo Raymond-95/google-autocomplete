@@ -1,3 +1,4 @@
-export const loginImages = {
-    logoIcon: require("./logo.png")
+export const Images = {
+    logoIcon: require('./logo.png'),
+    clearIcon: require('./clear.png')
 }

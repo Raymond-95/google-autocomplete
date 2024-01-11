@@ -10,13 +10,16 @@ import { Provider } from 'react-redux';
 import { store } from 'redux/store'
 
 import Navigator from 'features/navigation/Navigator'
+import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown'
 
 function App(): React.JSX.Element {
 
   return (
-    <Provider store={store}>
-      <Navigator />
-    </Provider>
+    <AutocompleteDropdownContextProvider>
+      <Provider store={store}>
+        <Navigator />
+      </Provider >
+    </AutocompleteDropdownContextProvider>
   );
 }
 

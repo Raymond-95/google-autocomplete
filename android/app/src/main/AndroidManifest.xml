@@ -1,5 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,6 +10,12 @@
       android:theme="@style/AppTheme"
       android:enableOnBackInvokedCallback="true"
       >
+
+      <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyBOf_upOIDZ-r307XD6peaWp4TgeGimLxs"/>
+
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
