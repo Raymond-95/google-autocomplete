@@ -1,0 +1,38 @@
+{
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "strict": false,
+    // path configurations
+    "baseUrl": "src",
+    "paths": {
+      "@features": [
+        "./src/features"
+      ],
+      "@models": [
+        "./src/models"
+      ],
+      "@redux": [
+        "./src/redux"
+      ],
+      "@common": [
+        "./src/common"
+      ],
+      "@services": [
+        "./src/services"
+      ],
+      "@mock": [
+        "./src/mock"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "./src/**/*",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "jest.config.js"
+  ]
+}
