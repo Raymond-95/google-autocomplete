@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ofType } from 'redux-observable'
-import { Observable, of } from 'rxjs'
-import { catchError, map, switchMap, withLatestFrom, mergeMap } from 'rxjs/operators'
+import { Observable } from 'rxjs'
+import { switchMap, withLatestFrom } from 'rxjs/operators'
 import { MyEpic } from '../store'
 import { RootStoreType } from 'redux/rootReducer'
 
@@ -9,7 +9,6 @@ import BuildConfig from 'react-native-config'
 
 import { ApiService } from 'services/network/ApiService'
 import { GooglePlaceSearchModel } from 'models'
-import { useDispatch } from 'react-redux'
 
 type Geolocation = {
     latitude: string
@@ -64,6 +63,12 @@ const locationSlice = createSlice({
     },
 })
 
+/**
+ *
+ * @param action$ search location
+ * @param state$
+ * @returns
+ */
 const searchLocationEpic: MyEpic = (action$: Observable<PayloadAction<undefined>>, state$: Observable<RootStoreType>) =>
     action$.pipe(
         ofType(locationActions.searchLocation.type),
@@ -90,6 +95,12 @@ const searchLocationEpic: MyEpic = (action$: Observable<PayloadAction<undefined>
         })
     )
 
+/**
+ *
+ * @param action$ get location details
+ * @param state$
+ * @returns
+ */
 const getLocationDetailsEpic: MyEpic = (action$: Observable<PayloadAction<undefined>>, state$: Observable<RootStoreType>) =>
     action$.pipe(
         ofType(locationActions.getLocationDetails.type),

@@ -1,8 +1,8 @@
 import { StackNavigationProp } from "@react-navigation/stack"
 import { RootStackParamsList } from "features/navigation/Navigator"
 
-import { useEffect, useState } from "react"
-import { StyleSheet, View, TouchableOpacity, Text, Image } from 'react-native'
+import { StyleSheet, Text, Image } from 'react-native'
+import { ActivityIndicator, View } from '@ant-design/react-native'
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
@@ -13,6 +13,7 @@ import { locationActions } from 'redux/slices/locationSlice'
 import { CustomSafeAreaView } from 'common/components'
 import { fonts, palettes } from "common/theme"
 import { Images } from 'common/assets/images'
+import { useEffect, useState } from "react";
 
 interface Props {
     navigation: StackNavigationProp<RootStackParamsList, "Home">
@@ -28,10 +29,23 @@ const Homepage = ({ navigation }: Props) => {
 
     const dispatch = useAppDispatch()
 
+    const [isLoading, setLoading] = useState<boolean>(false)
+
+    const isFetching = useAppSelector((state: RootStoreType) => state.location.isFetching)
     const searchList = useAppSelector((state: RootStoreType) => state.location.searchList)
     const selectedPlaceGeolocation = useAppSelector((state: RootStoreType) => state.location.selectedPlaceGeolocation)
 
-    console.log(selectedPlaceGeolocation)
+    // add debounce to loading
+    useEffect(() => {
+        if (isLoading && !isFetching) {
+            setTimeout(() => {
+                setLoading(isFetching)
+            }, 1000)
+        }
+        else {
+            setLoading(isFetching)
+        }
+    }, [isFetching])
 
     return (
         <CustomSafeAreaView>
@@ -81,33 +95,44 @@ const Homepage = ({ navigation }: Props) => {
                 closeOnBlur={true}
             />
 
-            <MapView
-                style={styles.map}
-                provider={PROVIDER_GOOGLE}
-                region={{
-                    latitude: selectedPlaceGeolocation ? Number(selectedPlaceGeolocation.latitude) : initialRegion.latitude,
-                    longitude: selectedPlaceGeolocation ? Number(selectedPlaceGeolocation.longitude) : initialRegion.longitude,
-                    latitudeDelta: 0.0043,
-                    longitudeDelta: 0.0034
-                }}>
-                {
-                    selectedPlaceGeolocation &&
-                    <Marker
-                        coordinate={{
-                            latitude: Number(selectedPlaceGeolocation.latitude),
-                            longitude: Number(selectedPlaceGeolocation.longitude)
-                        }}
-                    />
-                }
-            </MapView>
+            {
+                isLoading ?
+                    <View style={styles.loadingContainer}>
+                        <ActivityIndicator size={'large'} color={palettes.primaryColor} />
+                    </View>
+                    :
+                    <MapView
+                        style={styles.map}
+                        provider={PROVIDER_GOOGLE}
+                        region={{
+                            latitude: selectedPlaceGeolocation ? Number(selectedPlaceGeolocation.latitude) : initialRegion.latitude,
+                            longitude: selectedPlaceGeolocation ? Number(selectedPlaceGeolocation.longitude) : initialRegion.longitude,
+                            latitudeDelta: 0.0043,
+                            longitudeDelta: 0.0034
+                        }}>
+                        {
+                            selectedPlaceGeolocation &&
+                            <Marker
+                                coordinate={{
+                                    latitude: Number(selectedPlaceGeolocation.latitude),
+                                    longitude: Number(selectedPlaceGeolocation.longitude)
+                                }}
+                            />
+                        }
+                    </MapView>
+            }
         </CustomSafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    map: {
+    loadingContainer: {
         flex: 1,
-        backgroundColor: 'red'
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    map: {
+        flex: 1
     }
 })
 export default Homepage;

@@ -2,12 +2,13 @@ import { StackNavigationProp } from "@react-navigation/stack"
 import { RootStackParamsList } from "features/navigation/Navigator"
 
 import React from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, StyleSheet, Image, Alert } from 'react-native';
+import { Button } from '@ant-design/react-native'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { CustomSafeAreaView, Heading1, CustomTextInput } from 'common/components';
-import { loginImages } from 'common/assets/images';
+import { Images } from 'common/assets/images';
 import { palettes } from 'common/theme';
 
 import { unlockWithBiometric, BiometricResponse, registerBiometric } from 'utils'
@@ -44,7 +45,7 @@ const Login = ({ navigation }: Props) => {
   return (
     <CustomSafeAreaView>
       <View style={styles.imgContainerStyle}>
-        <Image style={styles.logoStyle} source={loginImages.logoIcon} resizeMode="contain" />
+        <Image style={styles.logoStyle} source={Images.logoIcon} resizeMode="contain" />
       </View>
 
       <View style={styles.containerStyle}>
@@ -78,9 +79,7 @@ const Login = ({ navigation }: Props) => {
                 error={(touched.password && errors.password) ? errors.password : undefined}
               />
 
-              <TouchableOpacity style={styles.submitBtnStyle} onPress={handleSubmit}>
-                <Text style={styles.textStyle}>Submit</Text>
-              </TouchableOpacity>
+              <Button style={styles.submitBtnStyle} type="primary" onPress={handleSubmit}>Submit</Button>
             </View>
           )}
         </Formik>
@@ -88,6 +87,8 @@ const Login = ({ navigation }: Props) => {
     </CustomSafeAreaView>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   imgContainerStyle: {
@@ -103,13 +104,19 @@ const styles = StyleSheet.create({
   containerStyle: {
     flex: 0.6,
   },
+  inputTextStyle: {
+    borderWidth: 1,
+    borderColor: palettes.lightgrey,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    marginVertical: 20,
+    color: palettes.black
+  },
   submitBtnStyle: {
     marginTop: 25,
     backgroundColor: palettes.primaryColor,
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 10,
+    borderColor: palettes.primaryColor
   },
   textStyle: {
     color: palettes.white,
