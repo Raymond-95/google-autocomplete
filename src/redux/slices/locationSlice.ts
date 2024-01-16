@@ -114,10 +114,6 @@ const getLocationDetailsEpic: MyEpic = (action$: Observable<PayloadAction<undefi
                 key: BuildConfig.GOOGLE_API_API_KEY
             }
 
-            console.log(selectedPlace)
-            console.log(searchList[0])
-            console.log(data)
-
             return ApiService.apis.getLocationDetails(data)
                 .then(result => {
                     console.log(result)
