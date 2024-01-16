@@ -1,4 +1,4 @@
-import BaseException from "./BaseException"
+import BaseException, { Nullable } from "./BaseException"
 
 export default class HttpException extends BaseException {
     constructor(

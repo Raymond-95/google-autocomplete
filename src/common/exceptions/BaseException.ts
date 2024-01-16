@@ -1,6 +1,9 @@
 /**
  * All custom exceptions should extend this class.
  */
+
+export type Nullable<T> = T | null | undefined;
+
 export default class BaseException extends Error {
   private _status: Nullable<number | string>
   private _message: Nullable<string>
